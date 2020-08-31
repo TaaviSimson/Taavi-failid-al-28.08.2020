@@ -17,28 +17,38 @@ public class TestController {
     public List<Employee> getAllEmployees() {
         return employees;
     }
-    //localhost:8080/employees
+    //localhost:8080/employees - TÖÖTAB
 
     @GetMapping("employee/{id}")   //Ühe töötaja andmete saamine (GET)
     public Employee oneEmployee(@PathVariable("id") int id) {
         return employees.get(id);
     }
-    //localhost:8080/employee/5, 5. töötaja andmed
+    //localhost:8080/employee/5 - TÖÖTAB
+    //5. töötaja andmed
 
+    //@PutMapping Postman programmi kaudu
     @PutMapping("employee/{id}") //Ühe töötaja andmete muutmine (PUT)
     public void changeEmployee(@PathVariable("id") int id, @RequestBody Employee employee) {
         employees.set(id, employee);
     }
+    //localhost:8080/employee/1 - TÖÖTAB
+    // mitmenda indeksi töötaja andmed muuta tahad
 
+    //PostMapping Postman programmi kaudu
     @PostMapping("employee") //Ühe töötaja andmete lisamine (POST), Post puhul @PostMapping
     public void addEmployee(@RequestBody Employee employee) {    //void, ei tagasta midagi
         employees.add(employee);                                //GetMapping ja RequestBody ei käi kokku!!!
     }
+    //localhost:8080/employee - TÖÖTAB
+    // indeksit juurde ei tule, lisab listi töötaja
 
+    //DeleteMapping läbi Postmani. Vali vasakult rippmenüüst "Delete"
+    // Sisesta õige URL ja siis"Send", siis kustutab {id} elemendi
     @DeleteMapping("employee/{id}")   //Töötaja kustutamine nimekirjast (DELETE)
     public void deleteEmployee(@PathVariable("id") int id) { //void, ei tagasta midagi
         employees.remove(id);
     }
+    //localhost:8080/employee/0 - TÖÖTAB
 
 
     @GetMapping("fib")//Mõjutab veebiaadressit küsimärgini Nt. localhost:8080/fib?a=5
@@ -125,6 +135,5 @@ public class TestController {
         System.out.println(employee.getName());     //Prindib terminalis employee nime
         System.out.println(employee.getAge());      //Prindib terminalis töötaja vanuse
     }
-
 
 }

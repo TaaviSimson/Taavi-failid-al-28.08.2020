@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigInteger;
+
 @RestController
 public class TestController {
 
@@ -57,9 +59,9 @@ public class TestController {
     }
 
     @GetMapping("exercise1")//vaja katsetada
-    public int[] exercise1(@RequestParam("a") int a){
-        Lesson2.exercise1();
-        return Lesson2.exercise1();
+    public int[] exercise1(@RequestParam("a") int[] m){ //siin int[] m, edaspidi m
+        Lesson2.exercise1(m);
+        return Lesson2.exercise1(m);
     }
 
     @GetMapping("exercise2")//Töötab
@@ -74,5 +76,17 @@ public class TestController {
         return Lesson2.exercise5(a,b);
     }
 
+    @GetMapping("exercise8")
+    public BigInteger exercise8(){
+        Lesson2.exercise8();
+        return Lesson2.exercise8();
+    }
 
+    @GetMapping("dto")                          //brauseris peale / on dto
+    public Employee dtoTest(){
+        Employee employee = new Employee();     //loob uue employee
+        employee.setAge(30);                    //seab töötaja vanuseks 30
+        employee.setName("Taavi");              //seab töötaja nimeks Taavi
+        return employee;                        //tagasta töötaja väärtus
+    }
 }

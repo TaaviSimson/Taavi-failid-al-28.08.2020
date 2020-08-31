@@ -13,7 +13,7 @@ public class Lesson2 {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Sisesta käsklus: fibonacci, exercise1, exercise2, excercise5");
+        System.out.println("Sisesta käsklus: fibonacci, exercise1, exercise2, excercise5, exercise8");
         String kasklus = scanner.nextLine();
         if (kasklus.equalsIgnoreCase("fibonacci")) {
             System.out.println("\n" + "Mitmendat Fibonacci jada elementi otsid?");
@@ -21,45 +21,42 @@ public class Lesson2 {
             System.out.println("\n" + "Vastus: " + fibonacci(a));
         } else if (kasklus.equalsIgnoreCase("exercise1")) {
             System.out.println("\n" + "Sisesta 10 täisarvu");
-
-            exercise1();
+            int[] m = new int[10];
+            for (int i = 0; i < m.length; i++) {
+                m[i] = scanner.nextInt();
+            }
+            int[] a = exercise1(m);
+            System.out.println("");
+            for (int i = 0; i < a.length; i++) {          //(int value : a)
+                System.out.print(a[i] + " ");
+            }
         } else if (kasklus.equalsIgnoreCase("exercise2")) {
             System.out.println("\n" + "Sisesta number mitut järjestiku paariarvu soovid näha");
             int a = scanner.nextInt();
             exercise2(a);
             //System.out.println(exercise2(a));
         } else if (kasklus.equalsIgnoreCase("exercise5")) {//Ylesanne 5
-            System.out.println("\n"+"Sisesta 2 numbrit 1 ja 10 000 vahel");
+            System.out.println("\n" + "Sisesta 2 numbrit 1 ja 10 000 vahel");
             int a = scanner.nextInt(); // 1. arv
             int b = scanner.nextInt(); // 2. arv
             int[] vastus = exercise5(a, b);
             System.out.println("\n" + "Vastus:");
             System.out.println(vastus[0] + " " + vastus[1] + " " + vastus[2]);
-        } else {
-
+        } else if (kasklus.equalsIgnoreCase("exercise8")) {
+            BigInteger sum = exercise8();
+            System.out.println("\n"+"Vastus on: " + sum);
         }
-        //exercise2(4);
         //exercise3(2, 5);
-        //exercise5();
         //exercise7();
-        //exercise8();
+
     }
 
-    public static int[] exercise1() {//Kuidas saada siin skännerist lahti?
-        // TODO loo 10 elemendile täisarvude massiv
-        int[] m = new int[10];//Uue massiivi tegemine
-
-        // TODO loe sisse konsoolist 10 täisarvu
-        //System.out.println("Sisesta 10 täisarvu");
+    public static int[] exercise1(int[] m) {
+        int[] a = new int[m.length];
         for (int i = 0; i < m.length; i++) {
-            Scanner scanner = new Scanner(System.in); //loob uue skänneri
-            m[i] = scanner.nextInt();// Annab numbrile m kohal i väärtuse
+            a[i] = m[m.length - i - 1];
         }
-        // TODO trüki arvud välja vastupidises järiekorras
-        for (int i = m.length - 1; i >= 0; i--) {
-            System.out.print("\n" + m[i] + " ");
-        }
-        return m; //m on siinkohal Array
+        return a;                                       //a on siinkohal Array
     }
 
     public static int[] exercise2(int x) {
@@ -121,8 +118,8 @@ public class Lesson2 {
         //Scanner scanner = new Scanner(System.in);
         //int i = scanner.nextInt(); // 1. arv
         //int j = scanner.nextInt(); // 2. arv
-        int i = a;
-        int j = b;
+        int i = a; //i asendada a-ga
+        int j = b; //j asendada b-ga
         int maxpikkus = 0;// maksimaalne jada pikkus
         for (int k = i; k <= j; k++) {
             int pikkus = 1;// Jada pikkus 1-ni jõudmiseks arvu k puhul
@@ -168,28 +165,23 @@ public class Lesson2 {
         System.out.println(vastus);
     }
 
-    public static void exercise8() {
-        /*
-        Failis nums.txt on üksteise all 150 60-kohalist numbrit.
-
-        Kirjuta programm, mis loeks antud numbrid failist sisse ja liidaks need arvud kokku ning kuvaks ekraanil summa.
-        Faili nimi tuleb programmile ette anda käsurea parameetrina.
-
-        VASTUS:
-        Õige summa: 77378062799264987173249634924670947389130820063105651135266574
-         */
-        File file = new File("C:\\Users\\opilane\\IdeaProjects\\Taavi-failid\\150_numbrit");
+    public static BigInteger exercise8() {
+        File file = new File("C:\\Users\\opilane\\Downloads\\valiit\\src\\main\\java\\ee\\bcs\\valiit\\150_nums.txt");
         //Käsklus File file = new File() toob soovitava faili programmi
-        Scanner scanner = null; //Proovib leida faili, kui ei leia, annab erori
+        BigInteger n;                                   //Loob BigInteger n elemendi skaneerimiseks
+        BigInteger sum = new BigInteger("0");       //Loob summa jaoks uue BigIntegeri
         try {
-            scanner = new Scanner(file);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            Scanner scanner = new Scanner(file);        //Otsib File file juurest
+            while (scanner.hasNext()) {                 //hasNext vaatab kas järgmist rida eksisteerib
+                n = scanner.nextBigInteger();           //Liidab summale otsa i liikme
+                sum = sum.add(n);                       //Vastusele otsa liitmine BigInteger add meetodiga
+            }
+            scanner.close();                //Arvatavasti sulgeb skänneri
+        } catch (Exception e) {             //Annab teada kui faili leidmine aadressilt on läbikullunud
+            e.printStackTrace();            //Peaks teada andma kus ja mis viga esines
         }
-        BigInteger vastus = new BigInteger("0");
-
-        //vastus = vastus.add(b(i));;
-        System.out.println("Vastus on: " + vastus);
+        //Õige summa: 77378062799264987173249634924670947389130820063105651135266574
+        return sum;
     }
 
 

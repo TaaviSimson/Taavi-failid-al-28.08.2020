@@ -51,6 +51,7 @@ public class TestController {
     //localhost:8080/employee/0 - TÖÖTAB
 
 
+
     @GetMapping("fib")//Mõjutab veebiaadressit küsimärgini Nt. localhost:8080/fib?a=5
     public int fibonacci(@RequestParam("a") int a) { //selle rea a peale küsimärki
         Lesson2.fibonacci(a);

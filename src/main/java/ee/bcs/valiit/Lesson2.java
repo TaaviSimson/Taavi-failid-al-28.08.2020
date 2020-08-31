@@ -8,7 +8,6 @@ import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.Scanner;
 
-//exercise1();
 public class Lesson2 {
 
     public static void main(String[] args) {
@@ -45,10 +44,11 @@ public class Lesson2 {
         } else if (kasklus.equalsIgnoreCase("exercise8")) {
             BigInteger sum = exercise8();
             System.out.println("\n"+"Vastus on: " + sum);
+        } else{
+
         }
         //exercise3(2, 5);
         //exercise7();
-
     }
 
     public static int[] exercise1(int[] m) {

@@ -27,7 +27,7 @@ public class BankController {
     public BigInteger getAccount(@PathVariable("accountNr") String accountNr) {
         return allAccounts.get(accountNr);  //Siin accountNr, sest Map, leiab ise vastava paari välja
     }
-    //localhost:8080/bankbalance/335445
+    //localhost:8080/bankbalance/333333
 
 
     @PutMapping("deposit/{accountNr}")     //Kannab loodud kontole raha     TÖÖTAB
@@ -59,21 +59,21 @@ public class BankController {
 
 
     @PutMapping("transfer/{accountNr}/{accountNr2}")     //Viib raha ühelt kontolt teisele  TÖÖTAB
-    public String transferMoney(@PathVariable("accountNr") String accountNr,
-                                @PathVariable("accountNr2") String accountNr2,
-                                @RequestParam("transfer") BigInteger transfer) {
-        BigInteger accountBal = allAccounts.get(accountNr);
-        BigInteger accountBal2 = allAccounts.get(accountNr2);
-        if (accountBal.compareTo(transfer) > 0) {
-            accountBal = accountBal.subtract(transfer);
-            accountBal2 = accountBal2.add(transfer);
-            allAccounts.put(accountNr, accountBal);
-            allAccounts.put(accountNr2, accountBal2);
-            return "Transfer successful";
+    public String transferMoney(@PathVariable("accountNr") String accountNr,        //Esimene kontonumber
+                                @PathVariable("accountNr2") String accountNr2,      //Teine kontonumber
+                                @RequestParam("transfer") BigInteger transfer) {    //Ülekantav summa
+        BigInteger accountBal = allAccounts.get(accountNr);     //Kontoseis esimesel kontol
+        BigInteger accountBal2 = allAccounts.get(accountNr2);   //Kontoseis teisel kontol
+        if (accountBal.compareTo(transfer) > 0) {               //Konto nr. 1 vs ülekantav summa
+            accountBal = accountBal.subtract(transfer);         //Konto 1 - ülekantav summa
+            accountBal2 = accountBal2.add(transfer);            //Konto 2 + ülekantav summa
+            allAccounts.put(accountNr, accountBal);             //Sisendab uuendatud 1. konto jäägi
+            allAccounts.put(accountNr2, accountBal2);           //Sisendab uuendatud 2. konto jäägi
+            return "Transfer successful";                       //Tagastab "Ülekanne edukas"
         } else {
-            allAccounts.put(accountNr, accountBal);
-            allAccounts.put(accountNr2, accountBal2);
-            return "Transfer failed. You don`t have enough money.";
+            allAccounts.put(accountNr, accountBal);             //Sisendab 1. konto muutmata jäägi
+            allAccounts.put(accountNr2, accountBal2);           //Sisendab 2. konto muutmata jäägi
+            return "Transfer failed. You don`t have enough money."; //Teatab ebaõnnestunud ülekandest
         }
     }   //localhost:8080/transfer/123456/654321?transfer=250
 }

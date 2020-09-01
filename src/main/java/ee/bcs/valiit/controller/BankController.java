@@ -14,11 +14,12 @@ public class BankController {
     //HashMap kustub peale iga serveri uuendust!
 
     @PostMapping("account")       //Uue pangakonto loomine  TÖÖTAB
-    public void createAccount(@RequestBody BankAccount bankAccount) {
-        //BankAccount on asukoht (Klass) ja bankAccount on muutuja
-        allAccounts.put(bankAccount.getAccountNr(), bankAccount.getAccountBal());   //HashMap puhul put, mitte add!
+    public void createAccount(@RequestBody BankAccount request) {
+        //BankAccount on asukoht (Klass) ja request on muutuja
+        //kuna @RequestBody, siis request.getAccount kontonumbri saamiseks
+        //HashMap puhul put, mitte add!
+        allAccounts.put(request.getAccountNr(), request.getAccountBal());
     }
-    //kuna Map, siis bankAccount.getAccount kontonumbri saamiseks
     //localhost:8080/account - Postman programmi kaudu
 
 
@@ -35,9 +36,9 @@ public class BankController {
         //Küsib sisendit juurdekantava summa kohta
         //URL real opereerides @RequestBody POLE VAJA
         BigInteger accountBal = allAccounts.get(accountNr);
-        //Defineerime accountBal, ALL-ACOUNTS võtab info hashmapist kohal accountNr
+        //Defineerime accountBal, allAcounts võtab info hashmapist kohal accountNr
         accountBal = accountBal.add(deposit);           //Lisab kontole summa "deposit"
-        allAccounts.put(accountNr, accountBal);        //Kirjutab Mapis kontol oleva summa üle
+        allAccounts.put(accountNr, accountBal);         //Kirjutab Mapis kontol oleva summa üle
     }
     //localhost:8080/deposit/123456?deposit=123 - kannab kontole 123 raha Postmani kaudu
 
@@ -51,11 +52,10 @@ public class BankController {
             allAccounts.put(accountNr, accountBal);             //Pane uus väärtus Mapi õigele kohale
             return "Transfer successful";                       //Tagastab õnnestumise teate
         } else {
-            allAccounts.put(accountNr, accountBal);
+            allAccounts.put(accountNr, accountBal);             //Jätab alles esialgse kontoseisu
             return "You don`t have enough money";               //Tagastab ebaõnnestumise teate
         }
-    }
-    //localhost:8080/withdraw/123456?withdraw=200
+    }   //localhost:8080/withdraw/123456?withdraw=200
 
 
     @PutMapping("transfer/{accountNr}/{accountNr2}")     //Viib raha ühelt kontolt teisele  TÖÖTAB
@@ -75,10 +75,5 @@ public class BankController {
             allAccounts.put(accountNr2, accountBal2);
             return "Transfer failed. You don`t have enough money.";
         }
-    }
-    //localhost:8080/transfer/123456/654321?transfer=250
+    }   //localhost:8080/transfer/123456/654321?transfer=250
 }
-
-
-
-

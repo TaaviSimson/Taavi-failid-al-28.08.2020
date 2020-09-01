@@ -51,6 +51,16 @@ public class TestController {
     //localhost:8080/employee/0 - TÖÖTAB
 
 
+    @PostMapping("test/{id1}/{id2}/{id3}")
+    public String test (@PathVariable("id1") String pathId1,
+                        @PathVariable (value = "id2", required = false) Long pathId2,
+                        @PathVariable("id3") BigInteger pathId3,
+                        @RequestBody Employee reqestBody, //Sadaame JSonit Bodys
+                        @RequestParam(value = "id1", required = false) Integer queryId1,
+                        @RequestParam(value = "id3") BigInteger queryId3){
+        return "OK";
+    }
+    //localhost:8080/test/1/2/3?id1=12&id2=53&id3=234
 
     @GetMapping("fib")//Mõjutab veebiaadressit küsimärgini Nt. localhost:8080/fib?a=5
     public int fibonacci(@RequestParam("a") int a) { //selle rea a peale küsimärki

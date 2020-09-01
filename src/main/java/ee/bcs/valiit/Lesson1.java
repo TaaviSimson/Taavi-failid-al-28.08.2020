@@ -2,13 +2,6 @@ package ee.bcs.valiit;
 
 public class Lesson1 {
 
-    public static void main(String[] args) {
-        excersie1();
-        excersie2();
-        excersie3();
-        excersie4();
-    }
-
     public static void excersie1(){
         // TODO
         // defineeri 3 muutujat a = 1, b = 1, c = 3

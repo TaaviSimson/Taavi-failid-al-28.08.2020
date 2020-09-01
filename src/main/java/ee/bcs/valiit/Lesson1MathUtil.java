@@ -11,7 +11,6 @@ public class Lesson1MathUtil {
         String test = scanner.nextLine(); //Loeb millist teksti hakkame tegema
         System.out.println("");//jätab rea vahele, voi "+\n"?
 
-
         //String test = "min";
         if (test.equalsIgnoreCase("min")) {
             System.out.println("Sisesta parameetrid a ja b");

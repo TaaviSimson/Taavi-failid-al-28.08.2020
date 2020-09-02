@@ -7,6 +7,20 @@ import java.util.Scanner;
 
 // Enne kui seda tegema hakkad tee ära Lesson 2 (välja arvatud ülesanded 6, 8, 9)
 public class Lesson3Hard {
+    static Random random = new Random();
+    private static int randomNumber = random.nextInt(100);
+
+    public static String numberGame(int x) {
+        if (x == randomNumber) {
+            return "You guessed right!";
+        } else if (x > randomNumber) {
+            return "Number you`re looking for is smaller.";
+        } else {
+            return "Number you are looking for is smaller";
+        }
+    }
+    //0 puhul ütleb, et otsitav number on suurem
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Sisestka käsklus: evenFibonacci, randomGame või morseCode");
@@ -129,4 +143,6 @@ public class Lesson3Hard {
         }
         return vastus;
     }
+
 }
+

@@ -2,6 +2,7 @@ package ee.bcs.valiit.controller;
 
 import ee.bcs.valiit.Lesson1MathUtil;
 import ee.bcs.valiit.Lesson2;
+import ee.bcs.valiit.Lesson3Hard;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigInteger;
@@ -146,5 +147,13 @@ public class TestController {
         System.out.println(employee.getName());     //Prindib terminalis employee nime
         System.out.println(employee.getAge());      //Prindib terminalis töötaja vanuse
     }
+
+    @GetMapping("numbergame")
+    public String numberGame(@RequestParam ("a") int a){
+        Lesson3Hard.numberGame(a);
+        return Lesson3Hard.numberGame(a);
+    }
+    //localhost:8080/numbergame?a=12
+    //randomNumber antud päringus fikseeritud kujul!
 
 }

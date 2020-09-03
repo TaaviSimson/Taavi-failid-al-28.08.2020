@@ -6,12 +6,17 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigInteger;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
 @RestController
 public class BankController {
-//Kriipsutades RestControlleri välja koodi ei vaata
+    //Kriipsutades RestControlleri välja koodi ei vaata
+
+    @Autowired
+    private BankAccountService bankAccountService;
+    //Vajalik BankAccountService klassiga ühenduse loomiseks
 
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
@@ -69,11 +74,7 @@ public class BankController {
     @PutMapping("deposit/{accountNr}")   //Kontole raha lisamine    TÖÖTAB
     public void depositMoney(@PathVariable("accountNr") String accountNr,
                              @RequestParam("deposit") BigInteger deposit) {
-        String sql = "UPDATE account SET balance = balance + :balance WHERE account_nr = :account_nr";
-        Map<String, Object> paramMap = new HashMap();
-        paramMap.put("account_nr", accountNr);
-        paramMap.put("balance", deposit);
-        jdbcTemplate.update(sql, paramMap);
+        bankAccountService.depositMoney(accountNr, deposit);
     }
     //localhost:8080/deposit/555555?deposit=378
 
@@ -81,50 +82,25 @@ public class BankController {
     @PutMapping("withdraw/{accountNr}")     //Kontolt raha maha võtmine     TÖÖTAB
     public String withdrawMoney(@PathVariable("accountNr") String accountNr,
                                 @RequestParam("withdraw") BigInteger withdraw) {
-
-        String sql = "SELECT balance FROM account WHERE account_nr= :account_nr";   //Kontojäägi küsimine
-        Map<String, Object> paramMap = new HashMap();
-        paramMap.put("account_nr", accountNr);
-        BigInteger accountBal = jdbcTemplate.queryForObject(sql, paramMap, BigInteger.class);
-
-        if (accountBal.compareTo(withdraw) > 0) {
-            String sql2 = "UPDATE account SET balance = balance - :balance WHERE account_nr = :account_nr";
-            paramMap.put("account_nr", accountNr);
-            paramMap.put("balance", withdraw);
-            jdbcTemplate.update(sql2, paramMap);
-            return "Transfer successful.";
-        } else {
-            return "Transfer failed. You don`t have enough money.";
-        }
+        return bankAccountService.withdrawMoney(accountNr, withdraw);
     }
-    //localhost:8080/withdraw/999999?withdraw=243
+    //localhost:8080/withdraw/999999?withdraw=243   TÄIENDATUD
+    //Koodijupid Repository ja Service klassides
 
 
     @PutMapping("transfer/{accountNr}/{accountNr2}")    //Ühelt kontolt teisele raha kandmine
     public String transferMoney(@PathVariable("accountNr") String accountNr,
                                 @PathVariable("accountNr2") String accountNr2,
-                                @RequestParam("transfer") BigInteger transfer){
-
-        String sql = "SELECT balance FROM account WHERE account_nr= :account_nr";   //Konto 1 jäägi küsimine
-        Map<String, Object> paramMap = new HashMap();
-        paramMap.put("account_nr", accountNr);
-        BigInteger accountBal = jdbcTemplate.queryForObject(sql, paramMap, BigInteger.class);
-
-        if (accountBal.compareTo(transfer) > 0) {
-            String sql2 = "UPDATE account SET balance = balance - :balance WHERE account_nr = :account_nr";
-            paramMap.put("account_nr", accountNr);
-            paramMap.put("balance", transfer);
-            jdbcTemplate.update(sql2, paramMap);
-
-            String sql3 = "UPDATE account SET balance = balance + :balance WHERE account_nr = :account_nr";
-            paramMap.put("account_nr", accountNr2);
-            paramMap.put("balance", transfer);
-            jdbcTemplate.update(sql3, paramMap);
-
-            return "Transfer successful.";
-        } else {
-            return "Transfer failed. You don`t have enough money.";
-        }
-        //localhost:8080/transfer/111111/222222?transfer=45
+                                @RequestParam("transfer") BigInteger transfer) {
+        return bankAccountService.transferMoney(accountNr, accountNr2, transfer);
     }
+    //localhost:8080/transfer/111111/222222?transfer=45 TÄIENDATUD
+
+
+    @GetMapping("clientlist")       //Tagastab terve klientide nimekiri
+    public List<BankAccount> clientlist() {
+        return bankAccountService.clientlist();
+
+    }
+    //localhost:8080/clientlist
 }

@@ -74,6 +74,26 @@ public class BankController {
     //localhost:8080/deposit/555555?deposit=378
 
 
+    @PutMapping("withdraw/{accountNr}")
+    public String withdrawMoney(@PathVariable("accountNr") String accountNr,
+                                @RequestParam("withdraw") BigInteger withdraw) {
+
+        String sql = "SELECT balance FROM account WHERE account_nr= :account_nr";   //Kontojäägi küsimine
+        Map<String, Object> paramMap = new HashMap();
+        paramMap.put("account_nr", accountNr);
+        BigInteger accountBal = jdbcTemplate.queryForObject(sql, paramMap, BigInteger.class);
+
+        if (accountBal.compareTo(withdraw) > 0) {
+            String sql2 = "UPDATE account SET balance = balance - :balance WHERE account_nr = :account_nr";
+            paramMap.put("account_nr", accountNr);
+            paramMap.put("balance", withdraw);
+            jdbcTemplate.update(sql2, paramMap);
+            return "Transfer successful.";
+        } else {
+            return "Transfer failed. You don`t have enough money.";
+        }
+    }
+    //localhost:8080/withdraw/999999?withdraw=243
 
 
 
@@ -108,6 +128,7 @@ public class BankController {
     //localhost:8080/deposit/123456?deposit=123 - kannab kontole 123 raha Postmani kaudu
     */
 
+    /*
     @PutMapping("withdraw/{accountNr}")     //Võtab loodud kontolt raha     TÖÖTAB
     public String withdrawMoney(@PathVariable("accountNr") String accountNr,
                                 @RequestParam("withdraw") BigInteger withdraw) {    //Küsib väljavõetavat summat
@@ -121,7 +142,7 @@ public class BankController {
             return "You don`t have enough money";               //Tagastab ebaõnnestumise teate
         }
     }   //localhost:8080/withdraw/123456?withdraw=200
-
+*/
 
     @PutMapping("transfer/{accountNr}/{accountNr2}")     //Viib raha ühelt kontolt teisele  TÖÖTAB
     public String transferMoney(@PathVariable("accountNr") String accountNr,        //Esimene kontonumber

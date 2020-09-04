@@ -14,6 +14,13 @@ public class BankAccountService {
     @Autowired
     private BankAccountRepository bankAccountRepository;
 
+
+    public BigInteger bankBalance(String accountNr){
+        return bankAccountRepository.getBalance(accountNr);
+    }
+    //Ühe kliendi kontoseisu vaatamine kontonumbri alusel
+
+
     public void depositMoney(String accountNr, BigInteger deposit){
         bankAccountRepository.updateBalance2(accountNr,deposit);
     }

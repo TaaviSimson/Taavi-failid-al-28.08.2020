@@ -16,6 +16,14 @@ public class BankAccountRepository {
     private NamedParameterJdbcTemplate jdbcTemplate;
 //Läheb sisse üks päring korraga
 
+    public String bankBalance(String accountNr) {
+        String sql = "SELECT balance FROM account WHERE account_nr= :account_nr";   //Küsi 1 element, nt balance
+        Map<String, Object> paramMap = new HashMap();
+        paramMap.put("account_nr", accountNr);
+        String vastus = jdbcTemplate.queryForObject(sql, paramMap, String.class);
+        return vastus;
+    }
+
     public BigInteger getBalance(String accountNr) {
         String sql = "SELECT balance FROM account WHERE account_nr= :account_nr";   //Kontojäägi küsimine
         Map<String, Object> paramMap = new HashMap();

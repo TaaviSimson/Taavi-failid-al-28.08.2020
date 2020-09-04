@@ -61,12 +61,8 @@ public class BankController {
 
 
     @GetMapping("bankbalance/{accountNr}")      //Ühe kliendi pangajäägi vaatamine  TÖÖTAB
-    public String getAccount(@PathVariable("accountNr") String accountNr) {
-        String sql = "SELECT balance FROM account WHERE account_nr= :account_nr";   //Küsi 1 element, nt balance
-        Map<String, Object> paramMap = new HashMap();
-        paramMap.put("account_nr", accountNr);
-        String vastus = jdbcTemplate.queryForObject(sql, paramMap, String.class);
-        return vastus;
+    public BigInteger getAccount(@PathVariable("accountNr") String accountNr) {
+        return bankAccountService.bankBalance(accountNr);
     }
     //localhost:8080/bankbalance/123456
 

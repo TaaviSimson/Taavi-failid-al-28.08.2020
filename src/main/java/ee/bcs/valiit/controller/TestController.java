@@ -156,4 +156,6 @@ public class TestController {
     //localhost:8080/numbergame?a=12
     //randomNumber antud päringus fikseeritud kujul!
 
+
+
 }

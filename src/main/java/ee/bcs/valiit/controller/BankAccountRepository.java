@@ -16,13 +16,16 @@ public class BankAccountRepository {
     private NamedParameterJdbcTemplate jdbcTemplate;
 //Läheb sisse üks päring korraga
 
-    public String bankBalance(String accountNr) {
-        String sql = "SELECT balance FROM account WHERE account_nr= :account_nr";   //Küsi 1 element, nt balance
+    public void createAccount(String accountNr, BigInteger balance, BigInteger clientId){
+        String sql = "INSERT INTO account (account_nr, balance, client_id) " +
+                "VALUES (:account_nr, :balance, :client_id )";
         Map<String, Object> paramMap = new HashMap();
         paramMap.put("account_nr", accountNr);
-        String vastus = jdbcTemplate.queryForObject(sql, paramMap, String.class);
-        return vastus;
+        paramMap.put("balance", balance);
+        paramMap.put("client_id", clientId);
+        jdbcTemplate.update(sql, paramMap);
     }
+    //Loob uue pangakonto
 
     public BigInteger getBalance(String accountNr) {
         String sql = "SELECT balance FROM account WHERE account_nr= :account_nr";   //Kontojäägi küsimine
@@ -33,7 +36,7 @@ public class BankAccountRepository {
     }
     //Annab kontojäägi
 
-    public void updateBalance(String accountNr, BigInteger withdraw) {
+    public void updateBalanceMinus(String accountNr, BigInteger withdraw) {
         String sql2 = "UPDATE account SET balance = balance - :balance WHERE account_nr = :account_nr";
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("account_nr", accountNr);
@@ -42,8 +45,8 @@ public class BankAccountRepository {
     }
     //Võtab kontolt raha maha
 
-    public void updateBalance2(String accountNr2,
-                               BigInteger transfer) {
+    public void updateBalancePlus(String accountNr2,
+                                  BigInteger transfer) {
         String sql3 = "UPDATE account SET balance = balance + :balance WHERE account_nr = :account_nr";
         Map<String, Object> paramMap = new HashMap();
         paramMap.put("account_nr", accountNr2);

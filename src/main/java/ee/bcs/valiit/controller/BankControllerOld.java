@@ -81,4 +81,26 @@ public class BankControllerOld {
             return "Transfer failed. You don`t have enough money."; //Teatab ebaõnnestunud ülekandest
         }
     }   //localhost:8080/transfer/123456/654321?transfer=250
+
+
+    @GetMapping("sqltest")      //Väljastab kontonumber kohal id = 1   TÖÖTAB
+    public String testSql() {
+        String sql = "SELECT account_nr From account where id = :id";
+        Map<String, Object> paramMap = new HashMap();
+        paramMap.put("id", 1);
+        String vastus = jdbcTemplate.queryForObject(sql, paramMap, String.class);
+        return vastus;
+    }
+    //localhost:8080/sqltest
+
+
+    @PutMapping("sqltest2")     //Pangakonto seisu muutmine kohal id    TÖÖTAB
+    public void sqltest2() {
+        String sql = "UPDATE account SET balance = :balance where id = :id";
+        Map<String, Object> paramMap = new HashMap();
+        paramMap.put("balance", 33333);
+        paramMap.put("id", 2);
+        jdbcTemplate.update(sql, paramMap);
+    }
+    //localhost:8080/sqltest2
 }

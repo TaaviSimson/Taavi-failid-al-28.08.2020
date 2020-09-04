@@ -18,13 +18,22 @@ public class BankController {
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
 
-    @PostMapping("createaccount/{accountNr}/{balance}/{clientId}")  //Uue pangakonto loomine TÖÖTAB
-    public void createAccount(@PathVariable("accountNr") String accountNr,
-                              @PathVariable("balance") BigInteger balance,
-                              @PathVariable("clientId") BigInteger clientId) {
-        bankAccountService.createAccount(accountNr, balance, clientId);
+    @PostMapping("createclient")
+    public void createClient(@RequestBody CreateClientRequest clientRequest) {
+        bankAccountService.createClient(clientRequest.getFirstName(),
+                clientRequest.getLastName());
     }
-    //localhost:8080/createaccount/111111/12345/1000
+    //localhost:8080/createclient
+    //Getter ja Setter muutujatega CreateClientRequest klassis
+
+    @PostMapping("createaccount")  //Uue pangakonto loomine TÖÖTAB
+    public void createAccount(@RequestBody CreateAccountRequest accountRequest) {
+        bankAccountService.createAccount(accountRequest.getAccountNr(),
+                accountRequest.getBalance(),
+                accountRequest.getClientId());
+    }
+    //localhost:8080/createaccount
+    //Getter ja Setter CreateAccountRequest
 
     @GetMapping("bankbalance/{accountNr}")      //Ühe kliendi pangajäägi vaatamine  TÖÖTAB
     public BigInteger getAccount(@PathVariable("accountNr") String accountNr) {

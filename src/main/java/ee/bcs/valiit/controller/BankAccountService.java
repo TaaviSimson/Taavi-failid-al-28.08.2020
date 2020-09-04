@@ -13,6 +13,10 @@ public class BankAccountService {
     @Autowired
     private BankAccountRepository bankAccountRepository;
 
+    public void createClient(String firstname, String lastname){
+        bankAccountRepository.createClient(firstname, lastname);
+    }
+
     public void createAccount(String accountNr, BigInteger balance, BigInteger clientId){
         bankAccountRepository.createAccount(accountNr, balance, clientId);
     }

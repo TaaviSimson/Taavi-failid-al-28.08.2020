@@ -14,7 +14,16 @@ public class BankAccountRepository {
 
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
-//Läheb sisse üks päring korraga
+    //Läheb sisse üks päring korraga
+
+    public void createClient(String firstname, String lastname){
+        String sql = "INSERT INTO clientlist (firstname, lastname) "+
+                "VALUES (:firstname, :lastname)";
+        Map<String, Object> paramMap = new HashMap();
+        paramMap.put("firstname", firstname);
+        paramMap.put("lastname", lastname);
+        jdbcTemplate.update(sql, paramMap);
+    }
 
     public void createAccount(String accountNr, BigInteger balance, BigInteger clientId){
         String sql = "INSERT INTO account (account_nr, balance, client_id) " +

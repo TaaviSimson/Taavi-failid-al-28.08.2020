@@ -21,4 +21,49 @@
             </column>
         </createTable>
     </changeSet>
+
+    <changeSet  author="Taavi Simson"  id="2020-09-04 test 2">
+        <createTable  tableName="clientlist">
+            <column  name="id"  type="bigint" autoIncrement="true">
+                <constraints  nullable="true"  primaryKey="true"  unique="false"/>
+            </column>
+            <column  name="firstname"  type="text">
+                <constraints  nullable="true"  primaryKey="false"  unique="false"/>
+            </column>
+            <column  name="lastname"  type="text">
+                <constraints  nullable="true"  primaryKey="false"  unique="false"/>
+            </column>
+            <column  name="client_id"  type="bigint">
+                <constraints  nullable="true"  primaryKey="false"  unique="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet  author="Taavi Simson"  id="2020-09-04 test 3">
+        <createTable  tableName="transfers">
+            <column  name="id"  type="bigint" autoIncrement="true">
+                <constraints  nullable="true"  primaryKey="true"  unique="false"/>
+            </column>
+            <column  name="account_from"  type="text">
+                <constraints  nullable="true"  primaryKey="false"  unique="false"/>
+            </column>
+            <column  name="account_to"  type="text">
+                <constraints  nullable="true"  primaryKey="false"  unique="false"/>
+            </column>
+            <column  name="amount"  type="bigint">
+                <constraints  nullable="true"  primaryKey="false"  unique="false"/>
+            </column>
+            <column  name="client_id"  type="bigint">
+                <constraints  nullable="true"  primaryKey="false"  unique="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2020-09-04 test 4" author="Taavi Simson">
+        <addForeignKeyConstraint baseTableName="account" baseColumnNames="client_id"
+                                 constraintName="fk_account_clientlist"
+                                 referencedTableName="clientlist" referencedColumnNames="id"/>
+        <dropColumn tableName="clientlist" columnName="client_id"/>
+    </changeSet>
+
 </databaseChangeLog>

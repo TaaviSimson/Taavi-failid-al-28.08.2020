@@ -66,4 +66,9 @@
         <dropColumn tableName="clientlist" columnName="client_id"/>
     </changeSet>
 
+    <changeSet author="Taavi Simson" id="2020-09-07">
+            <renameTable newTableName="transaction_history"
+                         oldTableName="transfers"/>
+    </changeSet>
+
 </databaseChangeLog>

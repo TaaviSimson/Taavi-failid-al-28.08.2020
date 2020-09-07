@@ -33,7 +33,7 @@ public class BankController {
                 accountRequest.getClientId());
     }
     //localhost:8080/createaccount
-    //Getter ja Setter CreateAccountRequest
+    //Getter ja Setter CreateAccountRequest klassis
 
     @GetMapping("bankbalance/{accountNr}")      //Ühe kliendi pangajäägi vaatamine  TÖÖTAB
     public BigInteger getAccount(@PathVariable("accountNr") String accountNr) {

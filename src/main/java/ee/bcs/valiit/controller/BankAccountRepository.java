@@ -103,11 +103,12 @@ public class BankAccountRepository {
     //liasb transaction_history tabelisse ülekande kontolt 1 kontole 2
 
     public Integer getUserId(Integer accountFromId){
-        String sql = "SELECT id FROM account WHERE account_nr = " +
-                ":account_nr";
+        String sql = "SELECT id FROM account WHERE account_nr = :account_nr";
+        //Võtab "id" tabelist "account" kohal "account_nr"
         Map<String, Object> paramMap = new HashMap();
         paramMap.put("account_nr", accountFromId);
         Integer id = jdbcTemplate.queryForObject(sql, paramMap, Integer.class);
         return id;
     }
+    //Funktsioon kontonumbriga seotud unikaalse id saamiseks
 }

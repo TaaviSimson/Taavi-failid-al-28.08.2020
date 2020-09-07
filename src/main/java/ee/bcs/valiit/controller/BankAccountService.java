@@ -33,6 +33,7 @@ public class BankAccountService {
         bankAccountRepository.transferHistory(id1, deposit);
     }
     //Paneb kontole raha juurde
+    //transactio_history läheb id ja summa
 
     public String withdrawMoney(Integer accountNr, BigInteger withdraw) {
         BigInteger accountBal = bankAccountRepository.getBalance(accountNr);

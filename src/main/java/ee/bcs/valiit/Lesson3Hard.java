@@ -7,19 +7,17 @@ import java.util.Scanner;
 
 // Enne kui seda tegema hakkad tee ära Lesson 2 (välja arvatud ülesanded 6, 8, 9)
 public class Lesson3Hard {
-    //static Random random = new Random();
-    private static int randomNumber = (int) (Math.random()*100)+1; //random.nextInt(100)
 
+    private static int randomNumber = (int) (Math.random()*100)+1; //random.nextInt(100)
 
     public static String numberGame(int x) {
         if (x == randomNumber) {
-            //random = new Random();
             randomNumber = (int) (Math.random()*100)+1;
             return "You guessed right!";
         } else if (x > randomNumber) {
             return "Number you`re looking for is smaller.";
         } else {
-            return "Number you are looking for is smaller"; //Annab ka 0-ga selle vastuse
+            return "Number you are looking for is bigger";
         }
     }
     //0 puhul ütleb, et otsitav number on suurem
@@ -148,4 +146,3 @@ public class Lesson3Hard {
     }
 
 }
-

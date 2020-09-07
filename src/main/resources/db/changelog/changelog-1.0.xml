@@ -5,56 +5,56 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
-    <changeSet  author="Taavi Simson"  id="2020-09-04 test">
-        <createTable  tableName="account">
-            <column  name="id"  type="bigint" autoIncrement="true">
-                <constraints  nullable="true"  primaryKey="true"  unique="false"/>
+    <changeSet author="Taavi Simson" id="2020-09-04 test">
+        <createTable tableName="account">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints nullable="true" primaryKey="true" unique="false"/>
             </column>
-            <column  name="account_nr"  type="text">
-                <constraints  nullable="true"  primaryKey="false"  unique="false"/>
+            <column name="account_nr" type="text">
+                <constraints nullable="true" primaryKey="false" unique="false"/>
             </column>
-            <column  name="balance"  type="numeric">
-                <constraints  nullable="true"  primaryKey="false"  unique="false"/>
+            <column name="balance" type="numeric">
+                <constraints nullable="true" primaryKey="false" unique="false"/>
             </column>
-            <column  name="client_id"  type="bigint">
-                <constraints  nullable="true"  primaryKey="false"  unique="false"/>
-            </column>
-        </createTable>
-    </changeSet>
-
-    <changeSet  author="Taavi Simson"  id="2020-09-04 test 2">
-        <createTable  tableName="clientlist">
-            <column  name="id"  type="bigint" autoIncrement="true">
-                <constraints  nullable="true"  primaryKey="true"  unique="false"/>
-            </column>
-            <column  name="firstname"  type="text">
-                <constraints  nullable="true"  primaryKey="false"  unique="false"/>
-            </column>
-            <column  name="lastname"  type="text">
-                <constraints  nullable="true"  primaryKey="false"  unique="false"/>
-            </column>
-            <column  name="client_id"  type="bigint">
-                <constraints  nullable="true"  primaryKey="false"  unique="false"/>
+            <column name="client_id" type="bigint">
+                <constraints nullable="true" primaryKey="false" unique="false"/>
             </column>
         </createTable>
     </changeSet>
 
-    <changeSet  author="Taavi Simson"  id="2020-09-04 test 3">
-        <createTable  tableName="transfers">
-            <column  name="id"  type="bigint" autoIncrement="true">
-                <constraints  nullable="true"  primaryKey="true"  unique="false"/>
+    <changeSet author="Taavi Simson" id="2020-09-04 test 2">
+        <createTable tableName="clientlist">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints nullable="true" primaryKey="true" unique="false"/>
             </column>
-            <column  name="account_from"  type="text">
-                <constraints  nullable="true"  primaryKey="false"  unique="false"/>
+            <column name="firstname" type="text">
+                <constraints nullable="true" primaryKey="false" unique="false"/>
             </column>
-            <column  name="account_to"  type="text">
-                <constraints  nullable="true"  primaryKey="false"  unique="false"/>
+            <column name="lastname" type="text">
+                <constraints nullable="true" primaryKey="false" unique="false"/>
             </column>
-            <column  name="amount"  type="bigint">
-                <constraints  nullable="true"  primaryKey="false"  unique="false"/>
+            <column name="client_id" type="bigint">
+                <constraints nullable="true" primaryKey="false" unique="false"/>
             </column>
-            <column  name="client_id"  type="bigint">
-                <constraints  nullable="true"  primaryKey="false"  unique="false"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="Taavi Simson" id="2020-09-04 test 3">
+        <createTable tableName="transfers">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints nullable="true" primaryKey="true" unique="false"/>
+            </column>
+            <column name="account_from" type="text">
+                <constraints nullable="true" primaryKey="false" unique="false"/>
+            </column>
+            <column name="account_to" type="text">
+                <constraints nullable="true" primaryKey="false" unique="false"/>
+            </column>
+            <column name="amount" type="bigint">
+                <constraints nullable="true" primaryKey="false" unique="false"/>
+            </column>
+            <column name="client_id" type="bigint">
+                <constraints nullable="true" primaryKey="false" unique="false"/>
             </column>
         </createTable>
     </changeSet>
@@ -67,8 +67,46 @@
     </changeSet>
 
     <changeSet author="Taavi Simson" id="2020-09-07">
-            <renameTable newTableName="transaction_history"
-                         oldTableName="transfers"/>
+        <renameTable newTableName="transaction_history"
+                     oldTableName="transfers"/>
     </changeSet>
+
+    <changeSet author="Taavi Simson" id="2020-09-07 ver 2">
+        <dropColumn columnName="client_id"
+                    tableName="transaction_history"/>
+    </changeSet>
+
+    <changeSet author="Taavi Simson" id="2020-09-07 ver 3">
+        <dropTable tableName="transaction_history"/>
+    </changeSet>
+
+    <changeSet author="Taavi Simson" id="2020-09-07 ver 4">
+        <createTable tableName="transaction_history">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints nullable="true" primaryKey="true" unique="false"/>
+            </column>
+            <column name="account_from_id" type="int">
+                <constraints nullable="true" primaryKey="false" unique="false"/>
+            </column>
+            <column name="account_to_id" type="int">
+                <constraints nullable="true" primaryKey="false" unique="false"/>
+            </column>
+            <column name="amount" type="bigint">
+                <constraints nullable="true" primaryKey="false" unique="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="Taavi Simson" author="2020-09-07 ver 5">
+        <dropColumn tableName="account"
+                    columnName="account_nr"/>
+        <addColumn tableName="account">
+            <column name="account_nr"
+                    position="2"
+                    type="integer"
+            />
+        </addColumn>
+    </changeSet>
+
 
 </databaseChangeLog>

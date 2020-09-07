@@ -36,28 +36,28 @@ public class BankController {
     //Getter ja Setter CreateAccountRequest klassis
 
     @GetMapping("bankbalance/{accountNr}")      //Ühe kliendi pangajäägi vaatamine  TÖÖTAB
-    public BigInteger getAccount(@PathVariable("accountNr") String accountNr) {
+    public BigInteger getAccount(@PathVariable("accountNr") Integer accountNr) {
         return bankAccountService.bankBalance(accountNr);
     }
     //localhost:8080/bankbalance/123456
 
     @PutMapping("deposit/{accountNr}")   //Kontole raha lisamine    TÖÖTAB
-    public void depositMoney(@PathVariable("accountNr") String accountNr,
+    public void depositMoney(@PathVariable("accountNr") Integer accountNr,
                              @RequestParam("deposit") BigInteger deposit) {
         bankAccountService.depositMoney(accountNr, deposit);
     }
     //localhost:8080/deposit/555555?deposit=378
 
     @PutMapping("withdraw/{accountNr}")     //Kontolt raha maha võtmine     TÖÖTAB
-    public String withdrawMoney(@PathVariable("accountNr") String accountNr,
+    public String withdrawMoney(@PathVariable("accountNr") Integer accountNr,
                                 @RequestParam("withdraw") BigInteger withdraw) {
         return bankAccountService.withdrawMoney(accountNr, withdraw);
     }
     //localhost:8080/withdraw/999999?withdraw=243   TÄIENDATUD
 
     @PutMapping("transfer/{accountNr}/{accountNr2}")    //Ühelt kontolt teisele raha kandmine
-    public String transferMoney(@PathVariable("accountNr") String accountNr,
-                                @PathVariable("accountNr2") String accountNr2,
+    public String transferMoney(@PathVariable("accountNr") Integer accountNr,
+                                @PathVariable("accountNr2") Integer accountNr2,
                                 @RequestParam("transfer") BigInteger transfer) {
         return bankAccountService.transferMoney(accountNr, accountNr2, transfer);
     }
@@ -66,7 +66,6 @@ public class BankController {
     @GetMapping("clientlist")       //Tagastab terve klientide nimekiri
     public List<BankAccount> clientlist() {
         return bankAccountService.clientlist();
-
     }
     //localhost:8080/clientlist
 }

@@ -17,27 +17,29 @@ public class BankAccountService {
         bankAccountRepository.createClient(firstname, lastname);
     }
 
-    public void createAccount(String accountNr, BigInteger balance, BigInteger clientId){
+    public void createAccount(Integer accountNr, BigInteger balance, BigInteger clientId){
         bankAccountRepository.createAccount(accountNr, balance, clientId);
     }
     //Loob uue konto
 
-    public BigInteger bankBalance(String accountNr){
+    public BigInteger bankBalance(Integer accountNr){
         return bankAccountRepository.getBalance(accountNr);
     }
     //Ühe kliendi kontoseisu vaatamine kontonumbri alusel
 
-    public void depositMoney(String accountNr, BigInteger deposit){
+    public void depositMoney(Integer accountNr, BigInteger deposit){
         bankAccountRepository.updateBalancePlus(accountNr,deposit);
-        bankAccountRepository.transferHistory(accountNr, deposit);
+        int id1 = bankAccountRepository.getUserId(accountNr);
+        bankAccountRepository.transferHistory(id1, deposit);
     }
     //Paneb kontole raha juurde
 
-    public String withdrawMoney(String accountNr, BigInteger withdraw) {
+    public String withdrawMoney(Integer accountNr, BigInteger withdraw) {
         BigInteger accountBal = bankAccountRepository.getBalance(accountNr);
         if (accountBal.compareTo(withdraw) > 0) {
             bankAccountRepository.updateBalanceMinus(accountNr, withdraw);
-            bankAccountRepository.transferHistory2(accountNr, withdraw);
+            int id1 = bankAccountRepository.getUserId(accountNr);
+            bankAccountRepository.transferHistory2(id1, withdraw);
             return "Transfer successful.";
         } else {
             return "Transfer failed. You don`t have enough money.";
@@ -45,12 +47,14 @@ public class BankAccountService {
     }
     //võtab kontolt raha välja kui on kontol piisavalt raha
 
-    public String transferMoney(String accountNr, String accountNr2, BigInteger transfer) {
+    public String transferMoney(Integer accountNr, Integer accountNr2, BigInteger transfer) {
         BigInteger accountBal = bankAccountRepository.getBalance(accountNr);
         if (accountBal.compareTo(transfer) > 0) {
             bankAccountRepository.updateBalanceMinus(accountNr, transfer);       //updateBalance lahutab maha raha
             bankAccountRepository.updateBalancePlus(accountNr2, transfer);      //updateBalance2 liidab raha juurde
-            bankAccountRepository.transferHistory3(accountNr, accountNr2, transfer);
+            int id1 = bankAccountRepository.getUserId(accountNr);
+            int id2 = bankAccountRepository.getUserId(accountNr2);
+            bankAccountRepository.transferHistory3(id1, id2, transfer);
             return "Transfer successful.";
         } else {
             return "Transfer failed. You don`t have enough money.";

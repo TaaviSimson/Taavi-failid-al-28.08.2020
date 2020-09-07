@@ -25,7 +25,7 @@ public class BankAccountRepository {
         jdbcTemplate.update(sql, paramMap);
     }
 
-    public void createAccount(String accountNr, BigInteger balance, BigInteger clientId){
+    public void createAccount(Integer accountNr, BigInteger balance, BigInteger clientId){
         String sql = "INSERT INTO account (account_nr, balance, client_id) " +
                 "VALUES (:account_nr, :balance, :client_id )";
         Map<String, Object> paramMap = new HashMap();
@@ -36,7 +36,7 @@ public class BankAccountRepository {
     }
     //Loob uue pangakonto
 
-    public BigInteger getBalance(String accountNr) {
+    public BigInteger getBalance(Integer accountNr) {
         String sql = "SELECT balance FROM account WHERE account_nr= :account_nr";   //Kontojäägi küsimine
         Map<String, Object> paramMap = new HashMap();
         paramMap.put("account_nr", accountNr);
@@ -45,7 +45,7 @@ public class BankAccountRepository {
     }
     //Annab kontojäägi
 
-    public void updateBalanceMinus(String accountNr, BigInteger withdraw) {
+    public void updateBalanceMinus(Integer accountNr, BigInteger withdraw) {
         String sql2 = "UPDATE account SET balance = balance - :balance WHERE account_nr = :account_nr";
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("account_nr", accountNr);
@@ -54,7 +54,7 @@ public class BankAccountRepository {
     }
     //Võtab kontolt raha maha
 
-    public void updateBalancePlus(String accountNr2,
+    public void updateBalancePlus(Integer accountNr2,
                                   BigInteger transfer) {
         String sql3 = "UPDATE account SET balance = balance + :balance WHERE account_nr = :account_nr";
         Map<String, Object> paramMap = new HashMap();
@@ -71,34 +71,43 @@ public class BankAccountRepository {
     //Kuvab välja kõikide klientide nimekirja (konto_nr ja kontoseis)
 
 
-    public void transferHistory (String accountNr, BigInteger deposit){
-        String sql = "INSERT INTO transaction_history (account_to, amount) " +
-                "VALUES (:account_to, :amount)";
+    public void transferHistory (Integer accountToId, BigInteger deposit){
+        String sql = "INSERT INTO transaction_history (account_to_id, amount) " +
+                "VALUES (:account_to_id, :amount)";
         Map<String, Object> paramMap = new HashMap();
-        paramMap.put("account_to", accountNr);
+        paramMap.put("account_to_id", accountToId);
         paramMap.put("amount", deposit);
         jdbcTemplate.update(sql, paramMap);
     }
     //Lisab transaction_histroy tabelisse deposit kande
 
-    public void transferHistory2 (String accountNr, BigInteger withdraw){
-        String sql = "INSERT INTO transaction_history (account_from, amount) " +
-                "VALUES (:account_from, :amount)";
+    public void transferHistory2 (Integer accountFromId, BigInteger withdraw){
+        String sql = "INSERT INTO transaction_history (account_from_id, amount) " +
+                "VALUES (:account_from_id, :amount)";
         Map<String, Object> paramMap = new HashMap();
-        paramMap.put("account_from", accountNr);
+        paramMap.put("account_from_id", accountFromId);
         paramMap.put("amount", withdraw);
         jdbcTemplate.update(sql, paramMap);
     }
     //lisab transaction_history tabelisse withdraw kande
 
-    public void transferHistory3 (String accountNr, String accountNr2, BigInteger transfer){
-        String sql = "INSERT INTO transaction_history (account_from, account_to, amount) " +
-                "VALUES (:account_from, :account_to, :amount)";
+    public void transferHistory3 (Integer accountFromId, Integer accountToId, BigInteger transfer){
+        String sql = "INSERT INTO transaction_history (account_from_id, account_to_id, amount) " +
+                "VALUES (:account_from_id, :account_to_id, :amount)";
         Map<String, Object> paramMap = new HashMap();
-        paramMap.put("account_from", accountNr);
-        paramMap.put("account_to", accountNr2);
+        paramMap.put("account_from_id", accountFromId);
+        paramMap.put("account_to_id", accountToId);
         paramMap.put("amount", transfer);
         jdbcTemplate.update(sql, paramMap);
     }
     //liasb transaction_history tabelisse ülekande kontolt 1 kontole 2
+
+    public Integer getUserId(Integer accountFromId){
+        String sql = "SELECT id FROM account WHERE account_nr = " +
+                ":account_nr";
+        Map<String, Object> paramMap = new HashMap();
+        paramMap.put("account_nr", accountFromId);
+        Integer id = jdbcTemplate.queryForObject(sql, paramMap, Integer.class);
+        return id;
+    }
 }

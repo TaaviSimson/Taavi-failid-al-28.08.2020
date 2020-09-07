@@ -3,15 +3,15 @@ package ee.bcs.valiit.controller;
 import java.math.BigInteger;
 
 public class CreateAccountRequest {
-    private String accountNr;
+    private Integer accountNr;
     private BigInteger balance;
     private BigInteger clientId;
 
-    public String getAccountNr() {
+    public Integer getAccountNr() {
         return accountNr;
     }
 
-    public void setAccountNr(String accountNr) {
+    public void setAccountNr(Integer accountNr) {
         this.accountNr = accountNr;
     }
 

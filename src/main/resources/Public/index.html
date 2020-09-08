@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Webpage</title>
-<!--    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Red_Kitten_01.jpg"/>-->
-    <a href="url">https://www.neti.ee/</a>
+    <!--    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Red_Kitten_01.jpg"/>-->
+    <!--<a href="url">https://www.neti.ee/</a>
     <br/>
     <h2 id="book"> my books</h2>
     <a href=”#book">see my book list</a>
@@ -27,10 +27,114 @@
             <td height = "85"colspan = "2"></td>
         </tr>
     </table>
+</head>-->
 
-
-
-</head>
 <body>
+<!--<script>
+    let a = 0;
+    let b = 0;
+    if(a=b){
+        alert("võrdsed");
+    }else{
+        alert("mittevõrdsed");
+    }
+
+    let c = 1;
+    while (c < 10){
+        console.log(c);
+        c++;
+    }
+</script>-->
+<!--<script>
+    function calculateloan(amount, months, interest = 10, name = 'john'){
+        console.log(amont);
+    }
+    calculateloan(1000, 36, 7, "John Snow");
+    calculateloan(1000, 36, 7, "John Snow", "John Mctovish");
+    calculateloan(1000, 36);
+</script>-->
+<!--
+<p id= "test">
+    mingi tekst
+</p>
+-->
+<button onclick = "alert(1);">
+    Test nupp
+</button>
+
+<button id = "testButton2">
+    Test nupp 2
+</button>
+
+<button id = "testButton3">
+    Test nupp 3
+</button>
+
+<button id = "testButton4">
+    Test nupp 4
+</button>
+
+<button id = "testButton5">
+    Create client
+</button>
+<br/>
+<br/>
+<input id ="input1"/> Button name
+<br/>
+<br/>
+<input id ="input2"/> First name
+<br/>
+<br/>
+<input id ="input3"/> Last name
+
+<script>
+        let button2 = document.getElementById("testButton2");
+        button2.onclick = function(){
+            alert("2");
+        }
+
+
+        let button3 = document.getElementById("testButton3");
+        let action = function(){
+            alert("3");
+        }
+        button3.addEventListener('click',action);
+
+
+        let button4 = document.getElementById("testButton4");
+        button4.onclick = function(){
+            alert(document.getElementById("input1").value);
+            button4.innerHTML = document.getElementById("input1").value;
+        }
+
+
+        let button5 = document.getElementById("testButton5");
+        button5.addEventListener('click', function(){
+
+			fetch('/createclient', {
+				method: 'POST',
+				cache: 'no-cache',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+					firstName: document.getElementById("input2").value,
+					lastName: document.getElementById("input3").value
+				})
+			})
+			.then(function() {
+                console.log("OK");
+			})
+			.catch(function(err) {
+				console.log(err);
+			});
+		});
+
+
+</script>
+
+
+
+
 </body>
 </html>

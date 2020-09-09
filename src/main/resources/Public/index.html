@@ -3,27 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Bank controller</title>
-    <link rel="stylesheet" href = "styling.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
           integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href = "styling.css">
 </head>
+
 <body>
-
-<button onclick = "alert(1);">
-    Test nupp
-</button>
-
-<button id = "testButton2">
-    Test nupp 2
-</button>
-
-<button id = "testButton3">
-    Test nupp 3
-</button>
-
-<button id = "testButton4">
-    Test nupp 4
-</button>
+<div class="container text-center">
 
 <button id = "createclient">
     Create client
@@ -41,37 +27,31 @@
     Deposit
 </button>
 
+<button id = "withdraw">
+    Withdraw
+</button>
+
+<button id = "transfer">
+    Transfer
+</button>
+
 <br/>
 <br/>
-<input id ="input1"/> Button name / Account number
+<input id ="input1" placeholder="Account to (deposit) / Check balance"/>
 <br/>
 <br/>
-<input id ="input2"/> First name / Balance / Deposit
+<input id ="input2" placeholder="First name / Insert balance / Deposit / Account from (withdraw)"/>
 <br/>
 <br/>
-<input id ="input3"/> Last name / Client ID
+<input id ="input3" placeholder="Last name / Client ID / Withdraw / Transfer"/>
+
+    <div id = "output">
+
+    </div>
+
+</div>
 
 <script>
-        let button2 = document.getElementById("testButton2");
-        button2.onclick = function(){
-            alert("2");
-        }
-
-
-        let button3 = document.getElementById("testButton3");
-        let action = function(){
-            alert("3");
-        }
-        button3.addEventListener('click',action);
-
-
-        let button4 = document.getElementById("testButton4");
-        button4.onclick = function(){
-            alert(document.getElementById("input1").value);
-            button4.innerHTML = document.getElementById("input1").value;
-        }
-
-
         let button5 = document.getElementById("createclient");
         button5.addEventListener('click', function(){
 			fetch('/createclient', {
@@ -159,6 +139,53 @@
                 });
         });
 
+
+        let button9 = document.getElementById("withdraw");
+        button9.addEventListener('click', function(){
+            fetch('/withdraw/' + document.getElementById("input2").value+
+                '?withdraw='+document.getElementById("input3").value, {
+                method: 'PUT',
+                cache: 'no-cache',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    accountNr: document.getElementById("input2").value,
+                    deposit: document.getElementById("input3").value,
+                })
+            })
+                .then(function() {
+                    console.log("OK");
+                })
+                .catch(function(err) {
+                    console.log(err);
+                });
+        });
+
+
+        let button10 = document.getElementById("transfer");
+        button10.addEventListener('click', function(){
+            fetch('/transfer/' + document.getElementById("input2").value+'/'+
+                document.getElementById("input1").value +
+                '?transfer='+document.getElementById("input3").value, {
+                method: 'PUT',
+                cache: 'no-cache',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    accountNr: document.getElementById("input2").value,
+                    accountNr2: document.getElementById("input1").value,
+                    transfer: document.getElementById("input3").value,
+                })
+            })
+                .then(function() {
+                    console.log("OK");
+                })
+                .catch(function(err) {
+                    console.log(err);
+                });
+        });
 
 
 </script>

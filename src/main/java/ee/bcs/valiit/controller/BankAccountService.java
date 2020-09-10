@@ -64,7 +64,13 @@ public class BankAccountService {
     //Kannab raha kontolt 1 kontole 2 kui kontol1 on piisavalt raha
 
     public List<BankAccount> clientlist() {
-        return bankAccountRepository.clientlist();  //Siin vaja kohe return
+        return bankAccountRepository.clientlist();
+        //Siin vaja kohe return
     }
     //Annab välja klientide nimekirja
+
+
+    public List<BankAccount> transactionHistory(Integer AccountNr){
+        return bankAccountRepository.transactionHistory(AccountNr);
+    }
 }

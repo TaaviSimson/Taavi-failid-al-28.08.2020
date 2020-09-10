@@ -35,6 +35,10 @@
         Transfer
     </button>
 
+    <button id="transaction_history">
+        Transaction history
+    </button>
+
     <br/>
     <br/>
     <input type='text' pattern="[A-Z][a-z]" id="input1" placeholder="First name"/>
@@ -56,8 +60,8 @@
 </div>
 
 <script>
-    let button5 = document.getElementById("createclient");
-    button5.addEventListener('click', function () {
+    let button1 = document.getElementById("createclient");
+    button1.addEventListener('click', function () {
         fetch('/createclient', {
             method: 'POST',
             cache: 'no-cache',
@@ -82,8 +86,8 @@
     });
 
 
-    let button6 = document.getElementById("createaccount");
-    button6.addEventListener('click', function () {
+    let button2 = document.getElementById("createaccount");
+    button2.addEventListener('click', function () {
         fetch('/createaccount', {
             method: 'POST',
             cache: 'no-cache',
@@ -111,8 +115,8 @@
             });
     });
 
-    let button7 = document.getElementById("bankbalance");
-    button7.addEventListener('click', function () {
+    let button3 = document.getElementById("bankbalance");
+    button3.addEventListener('click', function () {
         fetch('/bankbalance/' + document.getElementById("input4").value, {
             method: 'GET',
             cache: 'no-cache',
@@ -135,8 +139,8 @@
     });
 
 
-    let button8 = document.getElementById("deposit");
-    button8.addEventListener('click', function () {
+    let button4 = document.getElementById("deposit");
+    button4.addEventListener('click', function () {
         fetch('/deposit/' + document.getElementById("input3").value +
             '?deposit=' + document.getElementById("input5").value, {
             method: 'PUT',
@@ -162,8 +166,8 @@
     });
 
 
-    let button9 = document.getElementById("withdraw");
-    button9.addEventListener('click', function () {
+    let button5 = document.getElementById("withdraw");
+    button5.addEventListener('click', function () {
         fetch('/withdraw/' + document.getElementById("input4").value +
             '?withdraw=' + document.getElementById("input5").value, {
             method: 'PUT',
@@ -190,8 +194,8 @@
     });
 
 
-    let button10 = document.getElementById("transfer");
-    button10.addEventListener('click', function () {
+    let button6 = document.getElementById("transfer");
+    button6.addEventListener('click', function () {
         fetch('/transfer/' + document.getElementById("input4").value + '/' +
             document.getElementById("input3").value +
             '?transfer=' + document.getElementById("input5").value, {
@@ -211,6 +215,30 @@
                     document.getElementById("input4").value+
                 " kontole " + document.getElementById("input3").value+
                 " summa " + document.getElementById("input5").value+ " €.";
+                document.getElementById("output").innerHTML = displayOnScreen;
+            })
+            .catch(function () {
+                displayOnScreen = "Esines viga!";
+                document.getElementById("output").innerHTML = displayOnScreen;
+            });
+    });
+
+
+    <!-- See käsklus peab aitama välja kuvada transaction history -->
+    let button7 = document.getElementById("bankbalance");
+    button7.addEventListener('click', function () {
+        fetch('/transaction_history/'+document.getElementById("input4").value, {
+            method: 'GET',
+            cache: 'no-cache',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        })
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (jsonData) {
+                displayOnScreen = jsonData;
                 document.getElementById("output").innerHTML = displayOnScreen;
             })
             .catch(function () {

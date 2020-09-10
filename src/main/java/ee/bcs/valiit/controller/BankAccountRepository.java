@@ -70,6 +70,14 @@ public class BankAccountRepository {
     }
     //Kuvab välja kõikide klientide nimekirja (konto_nr ja kontoseis)
 
+    public List<BankAccount> transactionHistory(Integer accountNr){
+        String sql = "SELECT * FROM transaction_history " +
+                "WHERE account_from_id: = account_from_id";   //Küsib tervet klientide listi
+        Map<String, Object> paramMap = new HashMap();
+        paramMap.put("account_from_id", accountNr);
+        return jdbcTemplate.query(sql, new HashMap<>(), new BankAccountRowMapper());
+    }
+    //Kuvab välja tehtud ülekannete, väljavõtete ja sissemaksete tabeli
 
     public void transferHistory (Integer accountToId, BigInteger deposit){
         String sql = "INSERT INTO transaction_history (account_to_id, amount) " +

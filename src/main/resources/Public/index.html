@@ -5,187 +5,218 @@
     <title>Bank controller</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
           integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-    <link rel="stylesheet" href = "styling.css">
+    <link rel="stylesheet" href="styling.css">
 </head>
 
 <body>
 <div class="container text-center">
 
-<button id = "createclient">
-    Create client
-</button>
+    <button id="createclient">
+        Create client
+    </button>
 
-<button id = "createaccount">
-    Create account
-</button>
+    <button id="createaccount">
+        Create account
+    </button>
 
-<button id = "bankbalance">
-    Bank balance
-</button>
+    <button id="bankbalance">
+        Bank balance
+    </button>
 
-<button id = "deposit">
-    Deposit
-</button>
+    <button id="deposit">
+        Deposit
+    </button>
 
-<button id = "withdraw">
-    Withdraw
-</button>
+    <button id="withdraw">
+        Withdraw
+    </button>
 
-<button id = "transfer">
-    Transfer
-</button>
+    <button id="transfer">
+        Transfer
+    </button>
 
-<br/>
-<br/>
-<input id ="input1" placeholder="Account to (deposit) / Check balance"/>
-<br/>
-<br/>
-<input id ="input2" placeholder="First name / Insert balance / Deposit / Account from (withdraw)"/>
-<br/>
-<br/>
-<input id ="input3" placeholder="Last name / Client ID / Withdraw / Transfer"/>
+    <br/>
+    <br/>
+    <input id="input1" placeholder="First name"/>
+    <br/>
+    <input id="input2" placeholder="Last name"/>
+    <br/>
+    <input id="input3" placeholder="Account to"/>
+    <br/>
+    <input id="input4" placeholder="Account from / Check or insert balance"/>
+    <br/>
+    <input id="input5" placeholder="Deposit / Withdraw / Transfer / Client ID"/>
 
-    <div id = "output">
+
+    <div id="output">
 
     </div>
 
 </div>
 
 <script>
-        let button5 = document.getElementById("createclient");
-        button5.addEventListener('click', function(){
-			fetch('/createclient', {
-				method: 'POST',
-				cache: 'no-cache',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify({
-					firstName: document.getElementById("input2").value,
-					lastName: document.getElementById("input3").value
-				})
-			})
-			.then(function() {
-                console.log("OK");
-			})
-			.catch(function(err) {
-				console.log(err);
-			});
-		});
+    let button5 = document.getElementById("createclient");
+    button5.addEventListener('click', function () {
+        fetch('/createclient', {
+            method: 'POST',
+            cache: 'no-cache',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                firstName: document.getElementById("input1").value,
+                lastName: document.getElementById("input2").value
+            })
+        })
+            .then(function () {
+                displayOnScreen = "Lõid kliendi " +
+                    document.getElementById("input1").value + " " +
+                    document.getElementById("input2").value + ".";
+                document.getElementById("output").innerHTML = displayOnScreen;
+            })
+            .catch(function () {
+                displayOnScreen = "Esines viga!";
+                document.getElementById("output").innerHTML = displayOnScreen;
+            });
+    });
 
 
-		let button6 = document.getElementById("createaccount");
-        button6.addEventListener('click', function(){
-			fetch('/createaccount', {
-				method: 'POST',
-				cache: 'no-cache',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify({
-					accountNr: document.getElementById("input1").value,
-					balance: document.getElementById("input2").value,
-					clientId: document.getElementById("input3").value
-				})
-			})
-			.then(function() {
-                console.log("OK");
-			})
-			.catch(function(err) {
-				console.log(err);
-			});
-		});
+    let button6 = document.getElementById("createaccount");
+    button6.addEventListener('click', function () {
+        fetch('/createaccount', {
+            method: 'POST',
+            cache: 'no-cache',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                accountNr: document.getElementById("input3").value,
+                balance: document.getElementById("input4").value,
+                clientId: document.getElementById("input5").value
+            })
+        })
+            .then(function () {
+                displayOnScreen = "Lõid konto " +
+                    document.getElementById("input3").value +
+                    " algse kontoseisuga " +
+                    document.getElementById("input4").value +
+                    " € ja kliendi ID-ga " +
+                    document.getElementById("input5").value + ".";
+                document.getElementById("output").innerHTML = displayOnScreen;
+            })
+            .catch(function () {
+                displayOnScreen = "Esines viga!";
+                document.getElementById("output").innerHTML = displayOnScreen;
+            });
+    });
 
-		let button7 = document.getElementById("bankbalance");
-        button7.addEventListener('click', function(){
-			fetch('/bankbalance/'+ document.getElementById("input1").value, {
-				method: 'GET',
-				cache: 'no-cache',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-			})
-			.then(function(response) {
+    let button7 = document.getElementById("bankbalance");
+    button7.addEventListener('click', function () {
+        fetch('/bankbalance/' + document.getElementById("input4").value, {
+            method: 'GET',
+            cache: 'no-cache',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        })
+            .then(function (response) {
                 return response.json();
-			})
-			.then(function(jsonData) {
-                console.log(jsonData);
-			})
-			.catch(function(err) {
-				console.log(err);
-			});
-		});
-
-
-        let button8 = document.getElementById("deposit");
-        button8.addEventListener('click', function(){
-            fetch('/deposit/' + document.getElementById("input1").value+
-                '?deposit='+document.getElementById("input2").value, {
-                method: 'PUT',
-                cache: 'no-cache',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    accountNr: document.getElementById("input1").value,
-                    deposit: document.getElementById("input2").value,
-                })
             })
-                .then(function() {
-                    console.log("OK");
-                })
-                .catch(function(err) {
-                    console.log(err);
-                });
-        });
-
-
-        let button9 = document.getElementById("withdraw");
-        button9.addEventListener('click', function(){
-            fetch('/withdraw/' + document.getElementById("input2").value+
-                '?withdraw='+document.getElementById("input3").value, {
-                method: 'PUT',
-                cache: 'no-cache',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    accountNr: document.getElementById("input2").value,
-                    deposit: document.getElementById("input3").value,
-                })
+            .then(function (jsonData) {
+                displayOnScreen = "Seis kontol "+ document.getElementById("input4").value
+                    + " on "+ jsonData +" €.";
+                document.getElementById("output").innerHTML = displayOnScreen;
             })
-                .then(function() {
-                    console.log("OK");
-                })
-                .catch(function(err) {
-                    console.log(err);
-                });
-        });
+            .catch(function () {
+                displayOnScreen = "Esines viga!";
+                document.getElementById("output").innerHTML = displayOnScreen;
+            });
+    });
 
 
-        let button10 = document.getElementById("transfer");
-        button10.addEventListener('click', function(){
-            fetch('/transfer/' + document.getElementById("input2").value+'/'+
-                document.getElementById("input1").value +
-                '?transfer='+document.getElementById("input3").value, {
-                method: 'PUT',
-                cache: 'no-cache',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    accountNr: document.getElementById("input2").value,
-                    accountNr2: document.getElementById("input1").value,
-                    transfer: document.getElementById("input3").value,
-                })
+    let button8 = document.getElementById("deposit");
+    button8.addEventListener('click', function () {
+        fetch('/deposit/' + document.getElementById("input3").value +
+            '?deposit=' + document.getElementById("input5").value, {
+            method: 'PUT',
+            cache: 'no-cache',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                accountNr: document.getElementById("input3").value,
+                deposit: document.getElementById("input5").value,
             })
-                .then(function() {
-                    console.log("OK");
-                })
-                .catch(function(err) {
-                    console.log(err);
-                });
-        });
+        })
+            .then(function () {
+                displayOnScreen = "Kandsid kontole " +
+                    document.getElementById("input3").value+
+                " edukalt summa "+document.getElementById("input5").value+ " €.";
+                document.getElementById("output").innerHTML = displayOnScreen;
+            })
+            .catch(function () {
+                displayOnScreen = "Esines viga!";
+                document.getElementById("output").innerHTML = displayOnScreen;
+            });
+    });
+
+
+    let button9 = document.getElementById("withdraw");
+    button9.addEventListener('click', function () {
+        fetch('/withdraw/' + document.getElementById("input4").value +
+            '?withdraw=' + document.getElementById("input5").value, {
+            method: 'PUT',
+            cache: 'no-cache',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                accountNr: document.getElementById("input4").value,
+                deposit: document.getElementById("input5").value,
+            })
+        })
+            .then(function () {
+                displayOnScreen = "Võtsid kontolt "+
+                    document.getElementById("input4").value+
+                " välja summa "+
+                    document.getElementById("input5").value+ " €.";
+                document.getElementById("output").innerHTML = displayOnScreen;
+            })
+            .catch(function () {
+                displayOnScreen = "Esines viga!";
+                document.getElementById("output").innerHTML = displayOnScreen;
+            });
+    });
+
+
+    let button10 = document.getElementById("transfer");
+    button10.addEventListener('click', function () {
+        fetch('/transfer/' + document.getElementById("input4").value + '/' +
+            document.getElementById("input3").value +
+            '?transfer=' + document.getElementById("input5").value, {
+            method: 'PUT',
+            cache: 'no-cache',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                accountNr: document.getElementById("input4").value,
+                accountNr2: document.getElementById("input3").value,
+                transfer: document.getElementById("input5").value,
+            })
+        })
+            .then(function () {
+                displayOnScreen = "Kandsid kontolt "+
+                    document.getElementById("input4").value+
+                " kontole " + document.getElementById("input3").value+
+                " summa " + document.getElementById("input5").value+ " €.";
+                document.getElementById("output").innerHTML = displayOnScreen;
+            })
+            .catch(function () {
+                displayOnScreen = "Esines viga!";
+                document.getElementById("output").innerHTML = displayOnScreen;
+            });
+    });
 
 
 </script>

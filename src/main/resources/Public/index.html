@@ -52,7 +52,7 @@
     <br/>
     <input type='text' pattern="[A-Z][a-z]" id="input2" placeholder="Last name"/>
     <br/>
-    <input type='number' id="input3" placeholder="Account to / Transaction history">
+    <input type='number' id="input3" placeholder="Account to / Transaction history"/>
     <br/>
     <input type='number' id="input4" placeholder="Account from / Check or insert balance"/>
     <br/>
@@ -60,7 +60,7 @@
 
     <!-- Sisestuspiirangute uurimine, hetkel ei tööta -->
 
-    <div id="output">
+    <div class="container" id="output">     <!-- container tähendab ? -->
 
     </div>
 
@@ -184,7 +184,7 @@
             },
             body: JSON.stringify({
                 accountNr: document.getElementById("input4").value,
-                deposit: document.getElementById("input5").value,
+                withdraw: document.getElementById("input5").value,
             })
         })
             .then(function () {
@@ -245,8 +245,20 @@
                 return response.json();
             })
             .then(function (jsonData) {
-                displayOnScreen = jsonData;
-                document.getElementById("output").innerHTML = JSON.stringify(displayOnScreen);
+                <!--displayOnScreen = jsonData;-->              <!-- antud rida pole enam vaja -->
+                                                                <!-- String tüüpi muutuja on html -->
+                let html = '<table class="table">';             <!-- loob muutuja nimega html, mis loob tabeli -->
+                for (let i = 0; i < jsonData.length; i++) {     <!-- tsükkel kuni i on võrnde Jsondata pikkusega -->
+                    let item = jsonData[i];                     <!-- item on võrdne jsondata kohal i -->
+                    html += '<tr>';                             <!-- alustab rida rida -->
+                    html += '<td>' +item.accountFromId +        <!-- alustab 1. lahtrist, kirjutab accountFromId -->
+                        '</td><td>' + item.accountToId +        <!-- vahetab lahtrit, kirjutab accountToId -->
+                        '</td><td>' + item.amount+ '</td>';     <!-- vahetab lahtrit, kirjutab amount -->
+                    html += '</tr>';                            <!-- läheb reast välja, järgmisse ritta -->
+                }                                               <!-- for tsükkel algab uuesti (ku saab) -->
+                html += '</table>';                             <!-- tabeli lõpp -->
+                <!--console.log(html);-->                       <!-- antud rida pole enam vaja -->
+                document.getElementById("output").innerHTML = html;     <!-- sisestab output kasti tabeli -->
             })
             .catch(function () {
                 displayOnScreen = "Esines viga!";

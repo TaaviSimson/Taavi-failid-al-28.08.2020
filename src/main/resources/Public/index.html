@@ -11,6 +11,11 @@
 <body>
 <div class="container text-center">
 
+    <img src="img/bankcontrollerlogo.jpg" alt="BankController logo" style = "width:100%">
+    <!-- Pilt peab olema resources all Public kaustas -->
+
+    <br/>
+
     <button id="createclient">
         Create client
     </button>
@@ -35,7 +40,9 @@
         Transfer
     </button>
 
-    <button id="transaction_history">
+    <br/>
+
+    <button class ="blue" id="transaction_history">
         Transaction history
     </button>
 
@@ -45,7 +52,7 @@
     <br/>
     <input type='text' pattern="[A-Z][a-z]" id="input2" placeholder="Last name"/>
     <br/>
-    <input type='number' id="input3" placeholder="Account to"/>
+    <input type='number' id="input3" placeholder="Account to / Transaction history">
     <br/>
     <input type='number' id="input4" placeholder="Account from / Check or insert balance"/>
     <br/>
@@ -225,9 +232,9 @@
 
 
     <!-- See käsklus peab aitama välja kuvada transaction history -->
-    let button7 = document.getElementById("bankbalance");
+    let button7 = document.getElementById("transaction_history");
     button7.addEventListener('click', function () {
-        fetch('/transaction_history/'+document.getElementById("input4").value, {
+        fetch('/transaction_history/'+document.getElementById("input3").value, {
             method: 'GET',
             cache: 'no-cache',
             headers: {
@@ -239,7 +246,7 @@
             })
             .then(function (jsonData) {
                 displayOnScreen = jsonData;
-                document.getElementById("output").innerHTML = displayOnScreen;
+                document.getElementById("output").innerHTML = JSON.stringify(displayOnScreen);
             })
             .catch(function () {
                 displayOnScreen = "Esines viga!";

@@ -70,7 +70,8 @@ public class BankAccountService {
     //Annab välja klientide nimekirja
 
 
-    public List<BankAccount> transactionHistory(Integer AccountNr){
-        return bankAccountRepository.transactionHistory(AccountNr);
+    public List<TransactionHistory> transactionHistory(Integer accountNr){
+        return bankAccountRepository.transactionHistory(accountNr);
     }
+    //Annab välja ühe konto maksete ajaloo
 }

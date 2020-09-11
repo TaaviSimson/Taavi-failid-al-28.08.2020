@@ -23,8 +23,19 @@ button {
 }
 button:hover{
     background-color: green;
-
 }
+
+button.blue{
+    width: 200px;
+    background-color: #218CF3;
+    border: 2px solid #218CF3;
+    color: white;
+    transition-duration: 0.4s;
+}
+button.blue:hover{
+    background-color: #1955D2;
+}
+
 input {
     background-color: #f2f2f2;
     color: black;

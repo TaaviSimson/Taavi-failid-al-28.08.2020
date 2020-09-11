@@ -72,9 +72,9 @@ public class BankController {
 
     //Luua teenus "transaction_history"
     @GetMapping("transaction_history/{accountNr}")
-    public List<BankAccount> transactionHistory(@PathVariable("accountNr") Integer accountNr){
+    public List<TransactionHistory> transactionHistory(@PathVariable("accountNr") Integer accountNr){
         return bankAccountService.transactionHistory(accountNr);
     }
-    //localhost:8080/transaction_history
+    //localhost:8080/transaction_history/111111
 
 }
